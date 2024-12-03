@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Desain Batik Fractal - Batik Fractal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        canvas {
+            border: 1px solid #000;
+            margin-top: 20px;
+        }
+        input[type="checkbox"] {
+            margin: 10px;
+        }
+        button {
+            padding: 10px;
+            background-color: #12d8d8;
+            color: #03188f;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #1b19ac6c;
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Batik Fractal</h1>
+</header>
+
+<section id="home">
+    <h2>Pengenalan Batik Fractal</h2>
+    <p>Batik Fractal adalah sebuah inovasi menarik dalam dunia batik yang menggabungkan keindahan seni tradisional batik dengan teknologi modern. Batik ini menggunakan prinsip-prinsip matematika, khususnya fraktal, untuk menciptakan desain yang unik, kompleks, dan memiliki pola yang berulang secara tak terhingga pada berbagai skala.</p>
+    <h3>Apa itu Fraktal?</h3>
+    <p>Fraktal adalah pola geometris yang memiliki sifat pengulangan diri pada berbagai skala. Sederhananya, jika Anda memperbesar bagian kecil dari sebuah pola fraktal, Anda akan menemukan pola yang sama persis dengan pola keseluruhan. Sifat ini membuat fraktal memiliki keindahan yang sangat kompleks dan menarik.</p>
+    <button onclick="mulai()">Mulai</button>
+</section>
+
+<section id="design" class="hidden">
+    <h2>Mendesain Batik Fractal</h2>
+    <canvas id="batikCanvas" width="600" height="600"></canvas>
+    <div class="controls">
+        <h3>Pilih Pola Batik yang Ingin Digunakan:</h3>
+
+        <label>
+            <input type="checkbox" id="pattern1" checked> Pola Bunga
+            <input type="number" id="size1" value="40" min="10" style="width: 60px;"> (Ukuran)
+        </label>
+        <br>
+        <label>
+            <input type="checkbox" id="pattern2" checked> Pola Daun
+            <input type="number" id="size2" value="50" min="10" style="width: 60px;"> (Ukuran)
+        </label>
+        <br>
+        <label>
+            <input type="checkbox" id="pattern3" checked> Pola Gelombang
+            <input type="number" id="size3" value="30" min="10" style="width: 60px;"> (Ukuran)
+        </label>
+        <br>
+        <label>
+            <input type="checkbox" id="pattern4" checked> Pola Titik
+            <input type="number" id="size4" value="20" min="10" style="width: 60px;"> (Ukuran)
+        </label>
+        <br>
+        <label>
+            <input type="checkbox" id="pattern5" checked> Pola Parang
+            <input type="number" id="size5" value="60" min="10" style="width: 60px;"> (Ukuran)
+        </label>
+        <br>
+        <label>
+            <input type="checkbox" id="pattern6" checked> Pola Spiral
+            <input type="number" id="size6" value="70" min="10" style="width: 60px;"> (Ukuran)
+        </label>
+        <br>
+        <label>
+            <input type="checkbox" id="pattern7" checked> Pola Geometris
+            <input type="number" id="size7" value="50" min="10" style="width: 60px;"> (Ukuran)
+        </label>
+        <br>
+        <label>
+            <input type="checkbox" id="pattern8" checked> Pola Heksagonal
+            <input type="number" id="size8" value="40" min="10" style="width: 60px;"> (Ukuran)
+        </label>
+        <br>
+        <label>
+            <input type="checkbox" id="pattern9" checked> Pola Setengah Lingkaran
+            <input type="number" id="size9" value="50" min="10" style="width: 60px;"> (Ukuran)
+        </label>
+        <br>
+        <label>
+            <input type="checkbox" id="pattern10" checked> Pola Simetri
+            <input type="number" id="size10" value="30" min="10" style="width: 60px;"> (Ukuran)
+        </label>
+        <br>
+
+        <button onclick="drawBatik()">Gambar Pola Batik</button>
+    </div>
+    <div class="result" id="result"></div>
+</section>
+
+<script>
+    function mulai() {
+        // Sembunyikan pengantar dan tampilkan halaman desain
+        document.getElementById('home').classList.add('hidden');
+        document.getElementById('design').classList.remove('hidden');
+    }
+
+    function drawBatik() {
+        const canvas = document.getElementById('batikCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Kosongkan canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Ambil pilihan pola dan ukuran
+        const patterns = {
+            pattern1: { checked: document.getElementById('pattern1').checked, size: parseInt(document.getElementById('size1').value) },
+            pattern2: { checked: document.getElementById('pattern2').checked, size: parseInt(document.getElementById('size2').value) },
+            pattern3: { checked: document.getElementById('pattern3').checked, size: parseInt(document.getElementById('size3').value) },
+            pattern4: { checked: document.getElementById('pattern4').checked, size: parseInt(document.getElementById('size4').value) },
+            pattern5: { checked: document.getElementById('pattern5').checked, size: parseInt(document.getElementById('size5').value) },
+            pattern6: { checked: document.getElementById('pattern6').checked, size: parseInt(document.getElementById('size6').value) },
+            pattern7: { checked: document.getElementById('pattern7').checked, size: parseInt(document.getElementById('size7').value) },
+            pattern8: { checked: document.getElementById('pattern8').checked, size: parseInt(document.getElementById('size8').value) },
+            pattern9: { checked: document.getElementById('pattern9').checked, size: parseInt(document.getElementById('size9').value) },
+            pattern10: { checked: document.getElementById('pattern10').checked, size: parseInt(document.getElementById('size10').value) },
+        };
+
+        // Gambar pola berulang
+        for (let y = 0; y < canvas.height; y += 20) { // Ukuran langkah grid
+            for (let x = 0; x < canvas.width; x += 20) { // Ukuran langkah grid
+                if (patterns.pattern1.checked) drawFlower(ctx, x, y, patterns.pattern1.size);
+                if (patterns.pattern2.checked) drawLeaf(ctx, x, y, patterns.pattern2.size);
+                if (patterns.pattern3.checked) drawWave(ctx, x, y, patterns.pattern3.size);
+                if (patterns.pattern4.checked) drawDot(ctx, x, y, patterns.pattern4.size);
+                if (patterns.pattern5.checked) drawParang(ctx, x, y, patterns.pattern5.size);
+                if (patterns.pattern6.checked) drawSpiral(ctx, x, y, patterns.pattern6.size);
+                if (patterns.pattern7.checked) drawGeometric(ctx, x, y, patterns.pattern7.size);
+                if (patterns.pattern8.checked) drawHexagon(ctx, x, y, patterns.pattern8.size);
+                if (patterns.pattern9.checked) drawHalfCircle(ctx, x, y, patterns.pattern9.size);
+                if (patterns.pattern10.checked) drawSymmetry(ctx, x, y, patterns.pattern10.size);
+            }
+        }
+
+        document.getElementById('result').innerText = 'Desain batik telah digambar!';
+    }
+
+    function drawFlower(ctx, x, y, size) {
+        ctx.fillStyle = '#FFB6C1'; // Warna pink muda
+        ctx.beginPath();
+        ctx.arc(x + size / 2, y + size / 2, size / 4, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    function drawLeaf(ctx, x, y, size) {
+        ctx.fillStyle = '#228B22'; // Warna hijau
+        ctx.beginPath();
+        ctx.moveTo(x + size / 2, y);
+        ctx.lineTo(x + size, y + size / 2);
+        ctx.lineTo(x + size / 2, y + size);
+        ctx.lineTo(x, y + size / 2);
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    function drawWave(ctx, x, y, size) {
+        ctx.strokeStyle = '#0000FF'; // Warna biru
+        ctx.beginPath();
+        ctx.moveTo(x, y + size / 2);
+        ctx.bezierCurveTo(x + size / 4, y, x + (3 * size) / 4, y + size, x + size, y + size / 2);
+        ctx.stroke();
+    }
+
+    function drawDot(ctx, x, y, size) {
+        ctx.fillStyle = '#FFD700'; // Warna emas
+        ctx.beginPath();
+        ctx.arc(x + size / 2, y + size / 2, size / 5, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    function drawParang(ctx, x, y, size) {
+        ctx.fillStyle = '#FF4500'; // Warna oranye kemerahan
+        ctx.beginPath();
+        ctx.moveTo(x + size / 2, y);
+        ctx.lineTo(x + size, y + size / 2);
+        ctx.lineTo(x, y + size);
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    function drawSpiral(ctx, x, y, size) {
+        ctx.strokeStyle = '#800080'; // Warna ungu
+        ctx.beginPath();
+        for (let i = 0; i < 5; i++) {
+            ctx.arc(x + size / 2, y + size / 2, (i + 1) * (size / 10), 0, Math.PI * 2);
+        }
+        ctx.stroke();
+    }
+
+    function drawGeometric(ctx, x, y, size) {
+        ctx.fillStyle = '#FF69B4'; // Warna pink
+        ctx.fillRect(x, y, size, size);
+    }
+
+    function drawHexagon(ctx, x, y, size) {
+        ctx.fillStyle = '#ADFF2F'; // Warna hijau kuning
+        ctx.beginPath();
+        for (let i = 0; i < 6; i++) {
+            ctx.lineTo(x + size / 2 + (size / 2) * Math.cos((Math.PI / 3) * i), y + size / 2 + (size / 2) * Math.sin((Math.PI / 3) * i));
+        }
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    function drawHalfCircle(ctx, x, y, size) {
+        ctx.fillStyle = '#FFA500'; // Warna oranye
+        ctx.beginPath();
+        ctx.arc(x + size / 2, y + size, size / 2, 0, Math.PI);
+        ctx.fill();
+    }
+
+    function drawSymmetry(ctx, x, y, size) {
+        ctx.fillStyle = '#DDA0DD'; // Warna plum
+        ctx.beginPath();
+        ctx.moveTo(x + size / 2, y);
+        ctx.lineTo(x, y + size);
+        ctx.lineTo(x + size, y + size);
+        ctx.closePath();
+        ctx.fill();
+    }
+</script>
+
+</body>
+</html>
+
+
